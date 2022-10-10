@@ -1,6 +1,8 @@
 # learning-solidity
 # Self-Environment
-- MacOS
+- OS: Mac with Intel chip / Monterey(12.5.1)
+- Node.js: v16.17.0
+- npm: 8.15.0
 
 # Setup
 ## Geth(go-ethereum)
@@ -13,5 +15,17 @@ brew tap ethereum/ethereum
 brew install ethereum
 ```
 
+## Truffle
 
+```
+npm install truffle -g
+```
 
+```
+truffle -v
+  Truffle v5.6.0 (core: 5.6.0)
+  Ganache v7.4.3
+  Solidity v0.5.16 (solc-js)
+  Node v16.17.0
+  Web3.js v1.7.4
+```
