@@ -3,6 +3,11 @@ pragma solidity ^0.8.17;
 
 contract Greeter {
   string private _greeting = "Hello, World!";
+  address private _owner;
+
+  constructor() {
+    _owner = msg.sender;
+  }
 
   function greet() external view returns(string memory) {
     return _greeting;
@@ -10,5 +15,9 @@ contract Greeter {
 
   function setGreeting(string calldata greeting) external {
     _greeting = greeting;
+  }
+
+  function owner() public view returns(address) {
+    return _owner;
   }
 }
