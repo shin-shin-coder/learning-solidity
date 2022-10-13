@@ -29,3 +29,6 @@ truffle -v
   Node v16.17.0
   Web3.js v1.7.4
 ```
+
+# Reference
+- [oreilly | SolidityとEthereumによる実践スマートコントラクト開発](https://www.oreilly.co.jp/books/9784873119342/)
