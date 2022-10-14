@@ -1,5 +1,7 @@
 # greeter
-# Command
+
+# Setup
+## Contract
 - Compile
 
 ```
@@ -12,7 +14,22 @@ truffle compile
 truffle migrate
 ```
 
-- Test
+## Client app
+
+- build client
+
+```
+cd client
+npm install
+```
+
+- start client
+
+```
+npm start
+```
+
+# Test
 
 ```
 truffle test
