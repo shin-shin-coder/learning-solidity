@@ -248,6 +248,10 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,node,solidity
 
-# custom
+# Production
 build
+client/src/contracts
+client/*/src/contracts
+
+# custom
 .envrc
