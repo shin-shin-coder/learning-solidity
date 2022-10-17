@@ -117,5 +117,17 @@ contract('Fundraiser', (accounts) => {
         'totalDonations should increment by the donation value'
       );
     });
+
+    it('increases donationsCount', async () => {
+      const currentDonationsCount = await fundraiser.donationsCount();
+      await fundraiser.donate({ from: donor, value });
+      const newDonationsCount = await fundraiser.donationsCount();
+
+      assert.equal(
+        newDonationsCount - currentDonationsCount,
+        1,
+        'totalDonations should increment by 1'
+      );
+    });
   });
 });
