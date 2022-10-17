@@ -20,7 +20,9 @@ contract Fundraiser is Ownable {
   address payable public beneficiary;
   uint256 public totalDonations;
   uint256 public donationsCount;
+
   event DonationReceived(address indexed donor, uint256 value);
+  event Withdraw(uint256 amount);
 
   constructor(
     string memory _name,
@@ -72,5 +74,11 @@ contract Fundraiser is Ownable {
     }
 
     return (values, dates);
+  }
+
+  function withdraw() public onlyOwner {
+    uint256 balance = address(this).balance;
+    beneficiary.transfer(balance);
+    emit Withdraw(balance);
   }
 }
