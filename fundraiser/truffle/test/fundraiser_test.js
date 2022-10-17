@@ -99,6 +99,11 @@ contract('Fundraiser', (accounts) => {
       );
     });
 
-    it('increases donation in myDonations');
+    it('increases donation in myDonations', async () => {
+      await fundraiser.donate({ from: donor, value });
+      const { values, dates } = await fundraiser.myDonations({ from: donor });
+      assert.equal(value, values[0], 'values should match');
+      assert(dates[0], 'date should be present');
+    });
   });
 });
