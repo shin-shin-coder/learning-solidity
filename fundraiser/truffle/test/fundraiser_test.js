@@ -9,18 +9,18 @@ contract('Fundraiser', (accounts) => {
   const beneficiary = accounts[1];
   const owner = accounts[0];
 
-  describe('initialization', () => {
-    beforeEach(async () => {
-      fundraiser = await FundRaiserContract.new(
-        name,
-        url,
-        imageURL,
-        description,
-        beneficiary,
-        owner
-      );
-    });
+  beforeEach(async () => {
+    fundraiser = await FundRaiserContract.new(
+      name,
+      url,
+      imageURL,
+      description,
+      beneficiary,
+      owner
+    );
+  });
 
+  describe('initialization', () => {
     it('gets the beneficiary name', async () => {
       const actual = await fundraiser.name();
       assert.equal(actual, name, 'names should match');
