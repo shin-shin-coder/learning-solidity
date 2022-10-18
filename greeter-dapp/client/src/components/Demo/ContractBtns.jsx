@@ -12,7 +12,7 @@ function ContractBtns({ setValue }) {
   };
 
   const read = async () => {
-    const value = await contract.methods.read().call({ from: accounts[0] });
+    const value = await contract.methods.greet().call({ from: accounts[0] });
     setValue(value);
   };
 
@@ -24,8 +24,7 @@ function ContractBtns({ setValue }) {
       alert('Please enter a value to write.');
       return;
     }
-    const newValue = parseInt(inputValue);
-    await contract.methods.write(newValue).send({ from: accounts[0] });
+    await contract.methods.setGreeting(inputValue).send({ from: accounts[0] });
   };
 
   return (
