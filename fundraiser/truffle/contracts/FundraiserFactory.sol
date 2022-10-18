@@ -38,7 +38,10 @@ contract FundraiserFactory {
     view
     returns(Fundraiser[] memory coll)
   {
-    uint256 size = fundraisersCount() > limit ? limit : fundraisersCount();
+    require(offset <= fundraisersCount(), 'offset out of bounds');
+
+    uint256 size = fundraisersCount() - offset;
+    size = limit > size ? size : limit;
     size = size > maxLimit ? maxLimit : size;
     coll = new Fundraiser[](size);
 
