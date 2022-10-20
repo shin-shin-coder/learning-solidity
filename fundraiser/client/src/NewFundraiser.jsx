@@ -11,7 +11,7 @@ import useEth from './contexts/EthContext/useEth';
 
 const NewFundraiser = () => {
   const {
-    state: { contract, accounts },
+    state: { fundraiserFactoryContract, accounts },
   } = useEth();
 
   const [name, setFundraiserName] = useState('');
@@ -22,10 +22,18 @@ const NewFundraiser = () => {
   const [custodian, setCustodian] = useState('');
 
   const handleSubmit = useCallback(async () => {
-    await contract.methods
+    await fundraiserFactoryContract.methods
       .createFundraiser(name, url, imageUrl, description, beneficiary)
       .send({ from: accounts[0] });
-  }, [contract, accounts, name, url, imageUrl, description, beneficiary]);
+  }, [
+    fundraiserFactoryContract,
+    accounts,
+    name,
+    url,
+    imageUrl,
+    description,
+    beneficiary,
+  ]);
 
   return (
     <Container maxWidth="md" sx={{ pt: 5 }}>
