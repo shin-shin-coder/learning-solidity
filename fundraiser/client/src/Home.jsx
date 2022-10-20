@@ -11,10 +11,12 @@ const Home = () => {
   const [funds, setFunds] = useState([]);
 
   const init = useCallback(async () => {
-    const response = await fundraiserFactoryContract.methods
-      .fundraisers(10, 0)
-      .call({ from: accounts[0] });
-    setFunds(response);
+    if (fundraiserFactoryContract) {
+      const response = await fundraiserFactoryContract.methods
+        .fundraisers(10, 0)
+        .call({ from: accounts[0] });
+      setFunds(response);
+    }
   }, [fundraiserFactoryContract, accounts]);
 
   useEffect(() => {
