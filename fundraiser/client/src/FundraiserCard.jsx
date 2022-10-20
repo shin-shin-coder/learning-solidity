@@ -6,6 +6,11 @@ import {
   CardActions,
   Typography,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import useEth from './contexts/EthContext/useEth';
 
@@ -48,7 +53,15 @@ const FundraiserCard = ({ fundraiser }) => {
     [web3, fundraiserArtifact]
   );
 
-  const handleOpen = useCallback(() => {}, []);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
 
   useEffect(() => {
     init(fundraiser);
@@ -57,27 +70,47 @@ const FundraiserCard = ({ fundraiser }) => {
   const { fundName, description, imageURL } = state;
 
   return (
-    <Card sx={{ width: 345, margin: '0 16px 16px 0' }}>
-      <CardMedia
-        component="img"
-        alt="Fundraiser Image"
-        height="140"
-        image={imageURL}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {fundName}
-        </Typography>
-        <Typography variant="body2" component="p" color="text.secondary">
-          {description}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button variant="contained" onClick={handleOpen}>
-          View More
-        </Button>
-      </CardActions>
-    </Card>
+    <div>
+      <Card sx={{ width: 345, margin: '0 16px 16px 0' }}>
+        <CardMedia
+          component="img"
+          alt="Fundraiser Image"
+          height="140"
+          image={imageURL}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {fundName}
+          </Typography>
+          <Typography variant="body2" component="p" color="text.secondary">
+            {description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button variant="contained" onClick={handleOpen}>
+            View More
+          </Button>
+        </CardActions>
+      </Card>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Donate to {fundName}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <img src={imageURL} width="200px" height="130px" alt="Fundraiser" />
+            <p>{description}</p>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
 
