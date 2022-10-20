@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import cc from 'cryptocompare';
 import {
   Card,
   CardContent,
@@ -14,8 +15,10 @@ import {
   FormControl,
   Input,
   InputAdornment,
+  FormHelperText,
 } from '@mui/material';
 import useEth from './contexts/EthContext/useEth';
+import { useMemo } from 'react';
 
 const FundraiserCard = ({ fundraiser }) => {
   const {
@@ -32,6 +35,8 @@ const FundraiserCard = ({ fundraiser }) => {
     url: '',
   });
 
+  const [exchangeRate, setExchangeRate] = useState(null);
+
   const init = useCallback(
     async (fund) => {
       try {
@@ -39,18 +44,24 @@ const FundraiserCard = ({ fundraiser }) => {
         const instance = new web3.eth.Contract(abi, fund);
         setContract(instance);
 
+        const exRate = await cc.price('ETH', ['USD']);
+        setExchangeRate(exRate.USD);
+
         const fundName = await instance.methods.name().call();
         const description = await instance.methods.description().call();
-        const totalDonations = await instance.methods.totalDonations().call();
         const imageURL = await instance.methods.imageURL().call();
         const url = await instance.methods.url().call();
+
+        const totalDonations = await instance.methods.totalDonations().call();
+        const eth = web3.utils.fromWei(totalDonations, 'ether');
+        const dollarDonationAmount = exRate.USD * eth;
 
         setState({
           fundName,
           description,
-          totalDonations,
           imageURL,
           url,
+          totalDonations: dollarDonationAmount,
         });
       } catch (err) {
         console.error(err);
@@ -63,6 +74,11 @@ const FundraiserCard = ({ fundraiser }) => {
 
   const [donateAmount, setDonateAmount] = useState(0);
 
+  const ethAmount = useMemo(
+    () => donateAmount / exchangeRate || 0,
+    [donateAmount, exchangeRate]
+  );
+
   const handleOpen = useCallback(() => {
     setOpen(true);
   }, []);
@@ -72,13 +88,15 @@ const FundraiserCard = ({ fundraiser }) => {
   }, []);
 
   const submitFunds = useCallback(async () => {
-    const donation = web3.utils.toWei(donateAmount);
+    const ethTotal = donateAmount / exchangeRate;
+    const donation = web3.utils.toWei(ethTotal.toString());
     await contract.methods.donate().send({
       from: accounts[0],
       value: donation,
       gas: 150000,
     });
-  }, [web3, donateAmount, contract, accounts]);
+    handleClose();
+  }, [web3, donateAmount, contract, accounts, exchangeRate, handleClose]);
 
   useEffect(() => {
     init(fundraiser);
@@ -103,7 +121,7 @@ const FundraiserCard = ({ fundraiser }) => {
             {description}
           </Typography>
           <Typography variant="body2" component="p" color="text.secondary">
-            Total Donations: {totalDonations}
+            Total Donations: ${totalDonations}
           </Typography>
         </CardContent>
         <CardActions>
@@ -123,7 +141,6 @@ const FundraiserCard = ({ fundraiser }) => {
           <DialogContentText>{description}</DialogContentText>
           <FormControl fullWidth sx={{ mt: 2, mb: 2 }}>
             <Input
-              id="standard-adornment-amount"
               placeholder="0.00"
               type="number"
               aria-label="Donate Amount"
@@ -133,6 +150,7 @@ const FundraiserCard = ({ fundraiser }) => {
               value={donateAmount}
               onChange={(e) => setDonateAmount(e.target.value)}
             />
+            <FormHelperText sx={{ ml: 0 }}>Eth: {ethAmount}</FormHelperText>
           </FormControl>
           <Button onClick={submitFunds} variant="contained" color="primary">
             Donate
