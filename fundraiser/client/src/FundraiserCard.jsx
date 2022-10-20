@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  CardActions,
+  Typography,
+  Button,
+} from '@mui/material';
 import useEth from './contexts/EthContext/useEth';
 
 const FundraiserCard = ({ fundraiser }) => {
@@ -41,6 +48,8 @@ const FundraiserCard = ({ fundraiser }) => {
     [web3, fundraiserArtifact]
   );
 
+  const handleOpen = useCallback(() => {}, []);
+
   useEffect(() => {
     init(fundraiser);
   }, [init, fundraiser]);
@@ -63,6 +72,11 @@ const FundraiserCard = ({ fundraiser }) => {
           {description}
         </Typography>
       </CardContent>
+      <CardActions>
+        <Button variant="contained" onClick={handleOpen}>
+          View More
+        </Button>
+      </CardActions>
     </Card>
   );
 };
