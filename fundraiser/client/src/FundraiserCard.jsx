@@ -11,6 +11,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  FormControl,
+  Input,
+  InputAdornment,
 } from '@mui/material';
 import useEth from './contexts/EthContext/useEth';
 
@@ -103,6 +106,17 @@ const FundraiserCard = ({ fundraiser }) => {
             <img src={imageURL} width="200px" height="130px" alt="Fundraiser" />
             <p>{description}</p>
           </DialogContentText>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <Input
+              id="standard-adornment-amount"
+              placeholder="0.00"
+              type="number"
+              aria-label="Donate Amount"
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+            />
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
