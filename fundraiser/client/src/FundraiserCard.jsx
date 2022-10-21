@@ -61,6 +61,14 @@ const FundraiserCard = ({ fundraiser }) => {
     return result;
   }, [web3, exchangeRate, userDonations]);
 
+  const [isOwner, setIsOwner] = useState(false);
+
+  const withdrawalFunds = useCallback(async () => {
+    await contract.methods.withdraw().send({ from: accounts[0] });
+    window.alert('Funds Withdrawn!');
+    setOpen(false);
+  }, [contract, accounts]);
+
   const init = useCallback(
     async (fund) => {
       try {
@@ -92,6 +100,12 @@ const FundraiserCard = ({ fundraiser }) => {
           .myDonations()
           .call({ from: accounts[0] });
         setUserDonations(userDonations);
+
+        const user = accounts[0];
+        const owner = await instance.methods.owner().call();
+        if (owner === user) {
+          setIsOwner(true);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -230,6 +244,15 @@ const FundraiserCard = ({ fundraiser }) => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
+          {isOwner && (
+            <Button
+              onClick={withdrawalFunds}
+              color="primary"
+              variant="contained"
+            >
+              Withdrawal
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>
