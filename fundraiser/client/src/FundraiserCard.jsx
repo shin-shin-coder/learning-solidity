@@ -69,6 +69,16 @@ const FundraiserCard = ({ fundraiser }) => {
     setOpen(false);
   }, [contract, accounts]);
 
+  const [beneficiary, setNewBeneficiary] = useState('');
+
+  const setBeneficiary = useCallback(async () => {
+    await contract.methods.setBeneficiary(beneficiary).send({
+      from: accounts[0],
+    });
+    window.alert('Fundraiser Beneficiary Changed');
+    setOpen(false);
+  }, [contract, accounts, beneficiary]);
+
   const init = useCallback(
     async (fund) => {
       try {
@@ -239,6 +249,29 @@ const FundraiserCard = ({ fundraiser }) => {
                 );
               })}
           </Box>
+          {isOwner && (
+            <Box sx={{ mt: 3, mb: 2 }}>
+              <FormControl fullWidth sx={{ mt: 2, mb: 2 }}>
+                <Input
+                  aria-label="Beneficiary"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      Beneficiary
+                    </InputAdornment>
+                  }
+                  value={beneficiary}
+                  onChange={(e) => setNewBeneficiary(e.target.value)}
+                />
+              </FormControl>
+              <Button
+                onClick={setBeneficiary}
+                variant="contained"
+                color="primary"
+              >
+                Set Beneficiary
+              </Button>
+            </Box>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
