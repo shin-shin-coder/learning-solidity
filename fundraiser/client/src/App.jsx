@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography } from '@mui/material';
 import { EthProvider } from './contexts/EthContext';
 import Home from './Home';
 import NewFundraiser from './NewFundraiser';
+import Receipts from './Receipts';
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/new" exact element={<NewFundraiser />} />
+            <Route path="/receipts" exact element={<Receipts />} />
           </Routes>
         </div>
       </BrowserRouter>

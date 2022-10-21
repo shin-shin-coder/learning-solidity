@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import cc from 'cryptocompare';
 import {
   Card,
@@ -183,23 +184,44 @@ const FundraiserCard = ({ fundraiser }) => {
           <Button onClick={submitFunds} variant="contained" color="primary">
             Donate
           </Button>
-          <Box sx={{ mt: 2, mb: 2 }}>
-            <Typography gutterBottom variant="h5" component="h5">
-              MyDonations
+          <Box sx={{ mt: 3, mb: 2 }}>
+            <Typography gutterBottom variant="h6" component="h6">
+              My Donations
             </Typography>
             {donationList &&
               donationList.map((donation, i) => {
                 return (
-                  <div key={i}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      mt: 1,
+                      mb: 2,
+                    }}
+                    key={i}
+                  >
                     <Typography
-                      variant="body2"
+                      variant="body1"
                       component="p"
                       color="text.secondary"
-                      sx={{ mt: 1, mb: 1 }}
                     >
                       ${donation.donationAmount}
                     </Typography>
-                  </div>
+                    <Button
+                      component={Link}
+                      to="/receipts"
+                      state={{
+                        fund: fundName,
+                        donation: donation.donationAmount,
+                        date: donation.date,
+                      }}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Request Receipt
+                    </Button>
+                  </Box>
                 );
               })}
           </Box>
