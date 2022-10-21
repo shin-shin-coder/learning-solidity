@@ -16,6 +16,7 @@ import {
   Input,
   InputAdornment,
   FormHelperText,
+  Box,
 } from '@mui/material';
 import useEth from './contexts/EthContext/useEth';
 import { useMemo } from 'react';
@@ -36,6 +37,28 @@ const FundraiserCard = ({ fundraiser }) => {
   });
 
   const [exchangeRate, setExchangeRate] = useState(null);
+
+  const [userDonations, setUserDonations] = useState(null);
+
+  const donationList = useMemo(() => {
+    if (!userDonations) {
+      return null;
+    }
+
+    const totalDonations = userDonations.values.length;
+    const result = [];
+    for (let i = 0; i < totalDonations; i++) {
+      const ethAmount = web3.utils.fromWei(userDonations.values[i]);
+      const userDonation = exchangeRate * ethAmount;
+
+      const donationDate = userDonations.dates[i];
+      result.push({
+        donationAmount: userDonation.toFixed(2),
+        date: donationDate,
+      });
+    }
+    return result;
+  }, [web3, exchangeRate, userDonations]);
 
   const init = useCallback(
     async (fund) => {
@@ -63,11 +86,16 @@ const FundraiserCard = ({ fundraiser }) => {
           url,
           totalDonations: dollarDonationAmount,
         });
+
+        const userDonations = await instance.methods
+          .myDonations()
+          .call({ from: accounts[0] });
+        setUserDonations(userDonations);
       } catch (err) {
         console.error(err);
       }
     },
-    [web3, fundraiserArtifact]
+    [web3, fundraiserArtifact, accounts]
   );
 
   const [open, setOpen] = useState(false);
@@ -155,6 +183,26 @@ const FundraiserCard = ({ fundraiser }) => {
           <Button onClick={submitFunds} variant="contained" color="primary">
             Donate
           </Button>
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <Typography gutterBottom variant="h5" component="h5">
+              MyDonations
+            </Typography>
+            {donationList &&
+              donationList.map((donation, i) => {
+                return (
+                  <div key={i}>
+                    <Typography
+                      variant="body2"
+                      component="p"
+                      color="text.secondary"
+                      sx={{ mt: 1, mb: 1 }}
+                    >
+                      ${donation.donationAmount}
+                    </Typography>
+                  </div>
+                );
+              })}
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
