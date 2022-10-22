@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "contract:compile": "hardhat compile",
     "contract:test": "hardhat test"
   },
   "keywords": [],
