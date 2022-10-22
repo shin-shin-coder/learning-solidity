@@ -18,6 +18,16 @@ $ npm install
 $ npm run contract:compile
 ```
 
+# Deploy
+## Local network
+- Launch a local network.
+
+```sh
+$ npx hardhat node
+```
+
+- Deploy contracts to a local network.
+
 
 # Testing
 - Testing contract
