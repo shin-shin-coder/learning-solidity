@@ -1,13 +1,27 @@
-# Sample Hardhat Project
+# TodoList
+# Environment
+- Node.js: v16.17.0
+- npm: 8.15.0
+- Solidity: 0.8.17
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+# Setup
+## Contract
+- Install dependencies
 
-Try running some of the following tasks:
+```sh
+$ npm install
+```
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+- Compile
+
+```sh
+$ npm run contract:compile
+```
+
+
+# Testing
+- Testing contract
+
+```sh
+$ npm run contract:test
 ```
