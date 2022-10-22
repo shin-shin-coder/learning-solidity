@@ -28,7 +28,6 @@ $ npx hardhat node
 
 - Deploy contracts to a local network.
 
-
 # Testing
 - Testing contract
 
