@@ -8,6 +8,7 @@ contract TodoList {
   }
 
   event Created(uint256 id, string content);
+  event UpdatedIsCompleted(uint256 id, bool isCompleted);
 
   Task[] public tasks;
 
@@ -18,5 +19,12 @@ contract TodoList {
 
   function taskCount() public view returns(uint256) {
     return tasks.length;
+  }
+
+  function toggleIsCompleted(uint256 _id) public {
+    Task memory _task = tasks[_id];
+    _task.isCompleted = !_task.isCompleted;
+    tasks[_id] = _task;
+    emit UpdatedIsCompleted(_id, _task.isCompleted);
   }
 }

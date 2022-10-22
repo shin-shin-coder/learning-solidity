@@ -1,4 +1,4 @@
-import { time, loadFixture } from '@nomicfoundation/hardhat-network-helpers';
+import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
@@ -46,6 +46,35 @@ describe('TodoList', function () {
       await expect(todoList.createTask('TEST_CONTENT'))
         .to.emit(todoList, 'Created')
         .withArgs(1, 'TEST_CONTENT');
+    });
+  });
+
+  describe('toggleIsCompleted', () => {
+    const targetId = 1;
+
+    const setUp = async () => {
+      const { todoList } = await loadFixture(deployContract);
+      await todoList.createTask('TEST_CONTENT1');
+      await todoList.createTask('TEST_CONTENT2');
+
+      return { todoList };
+    };
+
+    it('Should update isCompleted of a target task.', async () => {
+      const { todoList } = await setUp();
+
+      await todoList.toggleIsCompleted(targetId);
+
+      const task = await todoList.tasks(targetId);
+      expect(task.isCompleted).to.equal(true);
+    });
+
+    it('Should emit a UpdatedIsCompleted event.', async () => {
+      const { todoList } = await setUp();
+
+      await expect(todoList.toggleIsCompleted(targetId))
+        .to.emit(todoList, 'UpdatedIsCompleted')
+        .withArgs(targetId, true);
     });
   });
 });
