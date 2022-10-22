@@ -2,15 +2,15 @@ import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
-describe('TodoList', function () {
-  async function deployContract() {
+describe('TodoList', () => {
+  const deployContract = async () => {
     const TodoList = await ethers.getContractFactory('TodoList');
     const todoList = await TodoList.deploy();
     return { todoList };
-  }
+  };
 
-  describe('Deployment', function () {
-    it('Should set the right taskCount.', async function () {
+  describe('Deployment', () => {
+    it('Should set the right taskCount.', async () => {
       const { todoList } = await loadFixture(deployContract);
 
       const actual = await todoList.taskCount();
@@ -18,8 +18,8 @@ describe('TodoList', function () {
     });
   });
 
-  describe('createTask', function () {
-    it('Should increment a taskCount by 1.', async function () {
+  describe('createTask', () => {
+    it('Should increment a taskCount by 1.', async () => {
       const { todoList } = await loadFixture(deployContract);
       const beforeTaskCount = await todoList.taskCount();
 
@@ -29,7 +29,7 @@ describe('TodoList', function () {
       expect(newTaskCount.sub(beforeTaskCount)).to.equal(1);
     });
 
-    it('Should set a new task.', async function () {
+    it('Should set a new task.', async () => {
       const { todoList } = await loadFixture(deployContract);
 
       await todoList.createTask('TEST_CONTENT');
@@ -40,7 +40,7 @@ describe('TodoList', function () {
       expect(newTask.content).to.equal('TEST_CONTENT');
     });
 
-    it('Should emit an event.', async function () {
+    it('Should emit an event.', async () => {
       const { todoList } = await loadFixture(deployContract);
 
       await expect(todoList.createTask('TEST_CONTENT'))
