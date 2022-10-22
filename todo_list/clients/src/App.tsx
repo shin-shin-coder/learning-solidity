@@ -1,11 +1,11 @@
 import { FC, useEffect, useState, useCallback } from 'react';
-import './App.css';
 import { ethers } from 'ethers';
-import artifact from './contracts/TodoList.json';
+import { TodoList__factory, TodoList } from '../../typechain-types';
+import './App.css';
 
 const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
-const useTodoList = (contract: ethers.Contract) => {
+const useTodoList = (contract: TodoList) => {
   const [count, setCount] = useState<number>();
 
   const getTaskCount = useCallback(async () => {
@@ -22,8 +22,7 @@ const useTodoList = (contract: ethers.Contract) => {
 
 const App: FC = () => {
   const provider = new ethers.providers.JsonRpcProvider();
-  const contract = new ethers.Contract(contractAddress, artifact.abi, provider);
-
+  const contract = TodoList__factory.connect(contractAddress, provider);
   const { count } = useTodoList(contract);
 
   return (
