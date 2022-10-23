@@ -1,7 +1,5 @@
 # TodoList
-
-
-
+![app image]('app_sample.png')
 
 # Environment
 - Node.js: v16.17.0
@@ -9,7 +7,7 @@
 - Solidity: 0.8.17
 
 # Setup
-## Contract
+
 - Install dependencies
 
 ```sh
