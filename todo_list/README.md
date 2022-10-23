@@ -1,5 +1,8 @@
 # TodoList
-![app image]('app_sample.png')
+
+TodoList application using Solidity and React.js.
+
+![app image](./app_image.png)
 
 # Environment
 - Node.js: v16.17.0
