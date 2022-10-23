@@ -33,8 +33,10 @@ const useTodoList = (contract: TodoList) => {
 
 const App: FC = () => {
   const provider = new ethers.providers.JsonRpcProvider();
+  const signer = provider.getSigner();
   const contract = TodoList__factory.connect(contractAddress, provider);
-  const { tasks } = useTodoList(contract);
+  const contractWithSigner = contract.connect(signer);
+  const { tasks } = useTodoList(contractWithSigner);
 
   if (tasks === undefined) {
     return (
