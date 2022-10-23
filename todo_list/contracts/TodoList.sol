@@ -17,6 +17,15 @@ contract TodoList {
     emit Created(taskCount(), _content);
   }
 
+  function getTasks() public view returns(Task[] memory coll) {
+    uint256 size = taskCount();
+    coll = new Task[](size);
+    for(uint256 i = 0; i < size; i++) {
+      coll[i] = tasks[i];
+    }
+    return tasks;
+  }
+
   function taskCount() public view returns(uint256) {
     return tasks.length;
   }

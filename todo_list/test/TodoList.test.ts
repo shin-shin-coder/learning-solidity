@@ -49,6 +49,28 @@ describe('TodoList', () => {
     });
   });
 
+  describe('getTasks', () => {
+    const setUp = async () => {
+      const { todoList } = await loadFixture(deployContract);
+      await todoList.createTask('TEST_CONTENT1');
+      await todoList.createTask('TEST_CONTENT2');
+
+      return { todoList };
+    };
+
+    it('Should return tasks', async () => {
+      const { todoList } = await setUp();
+
+      const res = await todoList.getTasks();
+
+      expect(res.length).to.equal(2);
+      expect(res[0].content).to.equal('TEST_CONTENT1');
+      expect(res[0].isCompleted).to.equal(false);
+      expect(res[1].content).to.equal('TEST_CONTENT2');
+      expect(res[1].isCompleted).to.equal(false);
+    });
+  });
+
   describe('toggleIsCompleted', () => {
     const targetId = 1;
 
