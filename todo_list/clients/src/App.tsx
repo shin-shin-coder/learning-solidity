@@ -5,30 +5,50 @@ import './App.css';
 
 const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
-const useTodoList = (contract: TodoList) => {
-  const [count, setCount] = useState<number>();
+type Task = {
+  content: string;
+  isCompleted: boolean;
+};
 
-  const getTaskCount = useCallback(async () => {
-    const res = await contract.functions.taskCount();
-    setCount(res[0].toNumber());
+const useTodoList = (contract: TodoList) => {
+  const [tasks, setTasks] = useState<Task[]>();
+
+  const getTasks = useCallback(async () => {
+    const { coll } = await contract.functions.getTasks();
+    const tasks = coll.map((c) => {
+      return {
+        content: c.content,
+        isCompleted: c.isCompleted,
+      };
+    });
+    setTasks(tasks);
   }, [contract]);
 
   useEffect(() => {
-    getTaskCount();
+    getTasks();
   }, []);
 
-  return { count };
+  return { tasks };
 };
 
 const App: FC = () => {
   const provider = new ethers.providers.JsonRpcProvider();
   const contract = TodoList__factory.connect(contractAddress, provider);
-  const { count } = useTodoList(contract);
+  const { tasks } = useTodoList(contract);
+
+  if (tasks === undefined) {
+    return (
+      <div className="container">
+        <h1>TodoList</h1>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
       <h1>TodoList</h1>
-      <p>タスク件数: {count}件</p>
+      <p>タスク件数: {tasks.length}件</p>
     </div>
   );
 };
