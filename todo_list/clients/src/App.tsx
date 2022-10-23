@@ -46,11 +46,22 @@ const useTodoList = (contract: TodoList) => {
     [content, contract, getTasks]
   );
 
+  const handleClickIsCompletedToggle = useCallback(async (id: number) => {
+    await contract.functions.toggleIsCompleted(id);
+    await getTasks();
+  }, []);
+
   useEffect(() => {
     getTasks();
   }, []);
 
-  return { tasks, handleChangeContent, content, handleSubmit };
+  return {
+    tasks,
+    handleChangeContent,
+    content,
+    handleSubmit,
+    handleClickIsCompletedToggle,
+  };
 };
 
 const App: FC = () => {
@@ -58,8 +69,13 @@ const App: FC = () => {
   const signer = provider.getSigner();
   const contract = TodoList__factory.connect(contractAddress, provider);
   const contractWithSigner = contract.connect(signer);
-  const { tasks, content, handleChangeContent, handleSubmit } =
-    useTodoList(contractWithSigner);
+  const {
+    tasks,
+    content,
+    handleChangeContent,
+    handleSubmit,
+    handleClickIsCompletedToggle,
+  } = useTodoList(contractWithSigner);
 
   if (tasks === undefined) {
     return (
@@ -88,7 +104,7 @@ const App: FC = () => {
           <tr>
             <th>No</th>
             <th>内容</th>
-            <th>完了</th>
+            <th>対応状況</th>
           </tr>
         </thead>
         <tbody>
@@ -97,7 +113,15 @@ const App: FC = () => {
               <tr key={task.id}>
                 <td>{task.id + 1}</td>
                 <td>{task.content}</td>
-                <td>{task.isCompleted ? 'Completed' : ''}</td>
+                <td>{task.isCompleted ? '完了' : '未完了'}</td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => handleClickIsCompletedToggle(task.id)}
+                  >
+                    対応状況を切り替える
+                  </button>
+                </td>
               </tr>
             );
           })}
