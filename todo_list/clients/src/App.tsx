@@ -6,6 +6,7 @@ import './App.css';
 const contractAddress = '0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e';
 
 type Task = {
+  id: number;
   content: string;
   isCompleted: boolean;
 };
@@ -15,8 +16,9 @@ const useTodoList = (contract: TodoList) => {
 
   const getTasks = useCallback(async () => {
     const { coll } = await contract.functions.getTasks();
-    const tasks = coll.map((c) => {
+    const tasks = coll.map((c, i) => {
       return {
+        id: i,
         content: c.content,
         isCompleted: c.isCompleted,
       };
@@ -81,6 +83,26 @@ const App: FC = () => {
         <button type="submit">タスクを作成する</button>
       </form>
       <p>タスク件数: {tasks.length}件</p>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>内容</th>
+            <th>完了</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.map((task) => {
+            return (
+              <tr key={task.id}>
+                <td>{task.id + 1}</td>
+                <td>{task.content}</td>
+                <td>{task.isCompleted ? 'Completed' : ''}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
