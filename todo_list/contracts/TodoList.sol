@@ -23,7 +23,7 @@ contract TodoList {
     for(uint256 i = 0; i < size; i++) {
       coll[i] = tasks[i];
     }
-    return tasks;
+    return coll;
   }
 
   function taskCount() public view returns(uint256) {
