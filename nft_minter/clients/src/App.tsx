@@ -23,6 +23,30 @@ function App() {
       setCurrentAccount(accounts[0]);
     } else {
       console.log('No authorized account found');
+      await connectWallet();
+    }
+  }, []);
+
+  const connectWallet = useCallback(async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        console.log('Metamask not detected');
+        return;
+      }
+
+      let chainId = await ethereum.request({ method: 'eth_chainId' });
+      console.log('Connected to chain:' + chainId);
+
+      const accounts = await ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+
+      console.log('Found account', accounts[0]);
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.log('Error connecting to metamask', error);
     }
   }, []);
 
