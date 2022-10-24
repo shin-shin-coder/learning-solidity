@@ -29,4 +29,18 @@ describe('MyNft', () => {
       expect(actual).to.equal('MY_NFT');
     });
   });
+
+  describe('createNft', () => {
+    it('Should emit Created event.', async () => {
+      const { myNft } = await loadFixture(deployContract);
+
+      await expect(await myNft.createNft())
+        .to.emit(myNft, 'Created')
+        .withArgs(0);
+
+      await expect(await myNft.createNft())
+        .to.emit(myNft, 'Created')
+        .withArgs(1);
+    });
+  });
 });
