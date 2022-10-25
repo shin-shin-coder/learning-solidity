@@ -1,13 +1,57 @@
-# Sample Hardhat Project
+# MyNft
+# Environment
+- Node.js: v16.17.0
+- npm: 8.15.0
+- Solidity: 0.8.17
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+# Setup
 
-Try running some of the following tasks:
+- Install dependencies
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+```sh
+$ npm install
+```
+
+- Compile Contract
+
+```sh
+$ npm run contract:compile
+```
+
+- Install client app's dependencies
+
+```sh
+$ cd clients
+
+$ npm install
+```
+
+# Start for development
+- Launch a local network.
+
+```sh
+$ npx hardhat node
+```
+
+- Deploy contracts to a local network.
+
+```sh
+$ npx hardhat run scripts/deploy.ts --network localhost
+```
+
+- Start client app.
+
+```sh
+$ cd clients
+
+$ npm run dev
+```
+
+- Access to `http://localhost:3000`
+
+# Testing
+- Testing contract
+
+```sh
+$ npm run contract:test
 ```
