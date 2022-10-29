@@ -8,6 +8,7 @@
     "dev:node": "hardhat node",
     "dev:deploy": "hardhat run scripts/deploy.ts --network localhost",
     "dev:mint": "hardhat run scripts/mint.ts --network localhost",
+    "dev:transfer": "hardhat run scripts/transfer.ts --network localhost",
     "dev:view": "hardhat run scripts/view.ts --network localhost"
   },
   "keywords": [],
