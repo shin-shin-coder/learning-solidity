@@ -1,0 +1,25 @@
+{
+  "name": "invitation_nft",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "dev:node": "hardhat node",
+    "dev:deploy": "hardhat run scripts/deploy.ts --network localhost",
+    "dev:mint": "hardhat run scripts/mint.ts --network localhost",
+    "dev:transfer": "hardhat run scripts/transfer.ts --network localhost",
+    "dev:view": "hardhat run scripts/view.ts --network localhost"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.7.3",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.12.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0"
+  }
+}
