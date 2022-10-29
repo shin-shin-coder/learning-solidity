@@ -2,17 +2,16 @@ import { ethers } from 'ethers';
 import { InvitationNFT__factory } from '../typechain-types';
 import config from '../config';
 
-const PRIVATE_KEY = config.PRIVATE_KEY;
-
 // Memo: Set your own setting.
-const NETWOKR = 'http://127.0.0.1:8545';
-const PUBLIC_KEY = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266';
-const CONTRACT_ADDRESS = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
+const NETWORK_URL = config.NETWORK_URL;
+const PRIVATE_KEY = config.PRIVATE_KEY;
+const PUBLIC_KEY = config.PUBLIC_KEY;
+const CONTRACT_ADDRESS = config.CONTRACT_ADDRESS;
 const TOKEN_ID = 5;
 const amount = 10;
 
 const mint = async () => {
-  const provider = new ethers.providers.JsonRpcProvider(NETWOKR);
+  const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL);
 
   const signer = provider.getSigner();
   const contract = InvitationNFT__factory.connect(CONTRACT_ADDRESS, provider);

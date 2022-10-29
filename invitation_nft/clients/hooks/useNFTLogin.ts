@@ -1,13 +1,14 @@
 import { ethers } from 'ethers';
 import { useState, useCallback } from 'react';
 import ABI from '../artifacts/contracts/InvitationNFT.sol/InvitationNFT.json';
+import config from '../config';
 
 interface Window {
   ethereum: any;
 }
 declare var window: Window & typeof globalThis;
 
-const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const contractAddress = config.CONTRACT_ADDRESS;
 
 export const useNFTLogin = (nftId: number) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
