@@ -1,4 +1,8 @@
-# MyNft
+# Invitation NFT
+This application has the feature to allow only certain NFT holders to view the page.
+
+![image](./app_image.png)
+
 # Environment
 - Node.js: v16.17.0
 - npm: 8.15.0
