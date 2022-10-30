@@ -21,5 +21,16 @@ describe('InvitationNFT', () => {
 
       expect(await contract.ownerOf(1)).to.be.equal(addr1);
     });
+
+    it('Should mint unsuccessfully by not owner.', async () => {
+      const { contract, signers } = await loadFixture(deployContract);
+
+      const signer1 = signers[1];
+      const addr2 = await signers[2].getAddress();
+
+      await expect(
+        contract.connect(signer1).mintAndTransfer(addr2)
+      ).to.be.revertedWith('Ownable: caller is not the owner');
+    });
   });
 });
