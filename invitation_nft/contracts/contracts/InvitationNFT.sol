@@ -1,10 +1,20 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
-import "../node_modules/@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 
-contract InvitationNFT is ERC1155PresetMinterPauser {
-    constructor() ERC1155PresetMinterPauser("http://localhost:3000/{id}.json") {}
+contract InvitationNFT is ERC721 {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenCounter;
+
+    constructor() ERC721("InvitationNFT", "INV") {}
+
+    function mintAndTransfer(address _to) public {
+        _tokenCounter.increment();
+
+        uint256 _newItemId = _tokenCounter.current();
+        _safeMint(msg.sender, _newItemId);
+        safeTransferFrom(msg.sender, _to, _newItemId);
+    }
 }
