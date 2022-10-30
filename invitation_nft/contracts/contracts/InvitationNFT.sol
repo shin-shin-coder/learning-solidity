@@ -11,7 +11,15 @@ contract InvitationNFT is ERC721, Ownable {
 
     constructor() ERC721("InvitationNFT", "INV") {}
 
-    function mintAndTransfer(address _to) public onlyOwner {
+    modifier onlyOwnerOrMember() {
+        require(
+            msg.sender == owner() || balanceOf(msg.sender) >= 1,
+            'Error: caller is not the owner or a member who have nft'
+        );
+        _;
+    }
+
+    function mintAndTransfer(address _to) public onlyOwnerOrMember {
         _tokenCounter.increment();
 
         uint256 _newItemId = _tokenCounter.current();
