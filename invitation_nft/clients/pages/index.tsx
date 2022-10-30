@@ -6,7 +6,7 @@ export default function Home() {
   const { checkWalletIsConnected, currentAccount } = useWallet();
 
   const nftId = 5;
-  const { checkNFTLogin, isAuthenticated } = useNFTLogin(nftId);
+  const { checkNFTLogin, isAuthenticated } = useNFTLogin();
 
   useEffect(() => {
     checkWalletIsConnected();

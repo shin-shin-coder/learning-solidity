@@ -7,8 +7,6 @@ const NETWORK_URL = config.NETWORK_URL;
 const PRIVATE_KEY = config.PRIVATE_KEY;
 const PUBLIC_KEY = config.PUBLIC_KEY;
 const CONTRACT_ADDRESS = config.CONTRACT_ADDRESS;
-const TOKEN_ID = 5;
-const amount = 10;
 
 const mint = async () => {
   const provider = new ethers.providers.JsonRpcProvider(NETWORK_URL);
@@ -24,12 +22,7 @@ const mint = async () => {
     throw new Error(`gasPrice is null.`);
   }
 
-  const contractTx = await contractWithSigner.mint(
-    PUBLIC_KEY,
-    TOKEN_ID,
-    amount,
-    []
-  );
+  const contractTx = await contractWithSigner.mintAndTransfer(PUBLIC_KEY);
 
   const tx = {
     from: PUBLIC_KEY,
