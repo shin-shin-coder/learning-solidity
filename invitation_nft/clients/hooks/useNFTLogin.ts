@@ -10,7 +10,7 @@ declare var window: Window & typeof globalThis;
 
 const contractAddress = config.CONTRACT_ADDRESS;
 
-export const useNFTLogin = (nftId: number) => {
+export const useNFTLogin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>();
 
   const checkNFTLogin = useCallback(
@@ -26,7 +26,7 @@ export const useNFTLogin = (nftId: number) => {
             provider
           );
 
-          const res = await contract.balanceOf(account, nftId);
+          const res = await contract.balanceOf(account);
 
           setIsAuthenticated(res.toNumber() > 0);
         } else {
@@ -36,7 +36,7 @@ export const useNFTLogin = (nftId: number) => {
         console.log('Error minting character', error);
       }
     },
-    [setIsAuthenticated, nftId]
+    [setIsAuthenticated]
   );
 
   return { isAuthenticated, checkNFTLogin };

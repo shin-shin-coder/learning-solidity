@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
-import { useWallet, useNFTLogin } from '../hooks';
+import { useWallet, useNFTLogin, useInvitation } from '../hooks';
 
 export default function Home() {
   const { checkWalletIsConnected, currentAccount } = useWallet();
 
-  const nftId = 5;
-  const { checkNFTLogin, isAuthenticated } = useNFTLogin(nftId);
+  const { checkNFTLogin, isAuthenticated } = useNFTLogin();
+
+  const { addressToInvite, onChangeAddressToInvite, onSubmiteInvitationForm } =
+    useInvitation();
 
   useEffect(() => {
     checkWalletIsConnected();
@@ -28,13 +30,35 @@ export default function Home() {
       <main style={{ padding: '24px' }}>
         <h1>NFT Page</h1>
         <p>Your Wallet: {currentAccount}</p>
-        {isAuthenticated === true && (
-          <p>Success: You have a authorized NFT！！！</p>
-        )}
         {isAuthenticated === false && (
           <p>Error: You have not a authorized NFT.</p>
         )}
         {isAuthenticated === undefined && <p>Checking your NFT....</p>}
+        {isAuthenticated === true && (
+          <div>
+            <p>Success: You have a authorized NFT！！！</p>
+            <h2>Invitation Form</h2>
+            <form onSubmit={onSubmiteInvitationForm}>
+              <div>
+                <label
+                  htmlFor="addressToInvite"
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  Address to invite
+                  <input
+                    id="addressToInvite"
+                    name="addressToInvite"
+                    type="text"
+                    onChange={onChangeAddressToInvite}
+                    value={addressToInvite}
+                    style={{ margin: '8px 0 16px 0' }}
+                  />
+                </label>
+              </div>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        )}
       </main>
     </div>
   );
