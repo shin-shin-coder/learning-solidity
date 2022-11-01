@@ -33,27 +33,27 @@ export const useInvitation = () => {
           return;
         }
 
+        const { ethereum } = window;
+        if (!ethereum) {
+          console.log("Ethereum object doesn't exist!");
+          return;
+        }
+
         try {
-          const { ethereum } = window;
+          const provider = new ethers.providers.Web3Provider(ethereum);
+          const contract = new ethers.Contract(
+            contractAddress,
+            ABI.abi,
+            provider
+          );
+          const signer = provider.getSigner();
+          const contractWithSigner = contract.connect(signer);
 
-          if (ethereum) {
-            const provider = new ethers.providers.Web3Provider(ethereum);
-            const contract = new ethers.Contract(
-              contractAddress,
-              ABI.abi,
-              provider
-            );
-            const signer = provider.getSigner();
-            const contractWithSigner = contract.connect(signer);
-
-            const nftTx = await contractWithSigner.mintAndTransfer(
-              addressToInvite
-            );
-            const tx = await nftTx.wait();
-            console.log('Mined!', tx);
-          } else {
-            console.log("Ethereum object doesn't exist!");
-          }
+          const nftTx = await contractWithSigner.mintAndTransfer(
+            addressToInvite
+          );
+          const tx = await nftTx.wait();
+          console.log('Mined!', tx);
         } catch (error) {
           console.log('Error minting character', error);
         }
