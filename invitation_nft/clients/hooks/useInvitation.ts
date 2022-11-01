@@ -56,6 +56,7 @@ export const useInvitation = () => {
           console.log('Mined!', tx);
         } catch (error) {
           console.log('Error minting character', error);
+          window.alert('招待に失敗しました');
         }
       },
       [addressToInvite]
