@@ -4,11 +4,11 @@ pragma solidity ^0.8.9;
 import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 
-contract UntransferableNFT is ERC721 {
+contract NonTransferableNFT is ERC721 {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenCounter;
 
-  constructor() ERC721("UntransferableNFT", "UNTRANSFER") {}
+  constructor() ERC721("NonTransferableNFT", "NON_TRANS") {}
 
   function mint() public {
     _tokenCounter.increment();
@@ -17,7 +17,7 @@ contract UntransferableNFT is ERC721 {
   }
 
   function _beforeTokenTransfer(address from, address, uint256) internal pure override {
-    require(from == address(0), 'Error: UntransferableNFT is not permitted to be transferred');
+    require(from == address(0), 'Error: NonTransferableNFT is not permitted to be transferred');
   }
 
   function getTotalSupply() external view returns(uint256) {

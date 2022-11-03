@@ -2,9 +2,9 @@ import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
-describe('UntransferableNFT', () => {
+describe('NonTransferableNFT', () => {
   const deployContract = async () => {
-    const InvitationNFT = await ethers.getContractFactory('UntransferableNFT');
+    const InvitationNFT = await ethers.getContractFactory('NonTransferableNFT');
     const signers = await ethers.getSigners();
     const contract = await InvitationNFT.deploy();
     return { contract, signers };
